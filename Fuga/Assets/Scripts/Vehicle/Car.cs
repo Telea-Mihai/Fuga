@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class CarControl : MonoBehaviour
+public class Car : MonoBehaviour
 {
     [Header("Car Properties")] public float motorTorque = 2000f;
     public float brakeTorque = 2000f;
@@ -9,44 +10,44 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10f;
     public float centreOfGravityOffset = -1f;
 
+    public Transform steeringWheel;
+    public float steeringWheelRotationMultiplier;
+
     private WheelControl[] wheels;
     private Rigidbody rigidBody;
+    private Vector3 steeringDefaultRot;
 
-    // Start is called before the first frame update
+    public float vInput, hInput, braking;
+    public bool started;
+
+    [SerializeField] private AudioSource engine;
+    [SerializeField] private AudioSource startSound;
+    
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-
-        // Adjust center of mass to improve stability and prevent rolling
+        
         Vector3 centerOfMass = rigidBody.centerOfMass;
         centerOfMass.y += centreOfGravityOffset;
         rigidBody.centerOfMass = centerOfMass;
 
-        // Get all wheel components attached to the car
+        steeringDefaultRot = steeringWheel.transform.rotation.eulerAngles; 
+
         wheels = GetComponentsInChildren<WheelControl>();
     }
-
-    // FixedUpdate is called at a fixed time interval 
-    void FixedUpdate()
+    
+    void Update()
     {
-        // Get player input for acceleration and steering
-        float vInput = Input.GetAxis("Vertical"); // Forward/backward input
-        float hInput = Input.GetAxis("Horizontal"); // Steering input
-
-        // Calculate current speed along the car's forward axis
         float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.linearVelocity);
-        float speedFactor = Mathf.InverseLerp(0, maxSpeed, Mathf.Abs(forwardSpeed)); // Normalized speed factor
-
-        // Reduce motor torque and steering at high speeds for better handling
-        float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed, Mathf.Abs(forwardSpeed)); 
+        
+        float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor) * (started ? 1 : 0);
         float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
-
-        // Determine if the player is accelerating or trying to reverse
+        
         bool isAccelerating = Mathf.Sign(vInput) == Mathf.Sign(forwardSpeed);
 
         foreach (var wheel in wheels)
         {
-            // Apply steering to wheels that support steering
             if (wheel.steerable)
             {
                 wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
@@ -54,21 +55,77 @@ public class CarControl : MonoBehaviour
 
             if (isAccelerating)
             {
-                // Apply torque to motorized wheels
                 if (wheel.motorized)
                 {
                     wheel.WheelCollider.motorTorque = vInput * currentMotorTorque;
                 }
-
-                // Release brakes when accelerating
+                
                 wheel.WheelCollider.brakeTorque = 0f;
             }
             else
             {
-                // Apply brakes when reversing direction
                 wheel.WheelCollider.motorTorque = 0f;
                 wheel.WheelCollider.brakeTorque = Mathf.Abs(vInput) * brakeTorque;
             }
         }
+        float steeringAngle = hInput * steeringRange * steeringWheelRotationMultiplier;
+
+        if (started)
+        {
+            float targetPitch = Mathf.Clamp(1f + Mathf.Abs(vInput) * 0.5f + rigidBody.linearVelocity.magnitude / maxSpeed, 0.8f, 2.5f);
+            engine.pitch = Mathf.Lerp(engine.pitch, targetPitch, Time.deltaTime * 3f);
+
+        }
+
+        steeringWheel.localRotation = Quaternion.Lerp(steeringWheel.localRotation, Quaternion.Euler(steeringDefaultRot.x, steeringDefaultRot.y , steeringDefaultRot.z + steeringAngle), 0.5f);
     }
+
+    public void startCar()
+    {
+        StopAllCoroutines();
+        StartCoroutine(startSequence());
+    }
+
+    public void stopCar()
+    {
+        StopAllCoroutines();
+        StartCoroutine(stopSequence());
+    }
+
+    IEnumerator startSequence()
+    {
+        startSound.Play();
+        yield return new WaitForSeconds(2f);
+        started = true;
+        engine.loop = true;
+        engine.Play();
+    }
+    
+    IEnumerator stopSequence()
+    {
+        started = false;
+
+        float fadeDuration = 2f;
+        float elapsed = 0f;
+        float initialPitch = engine.pitch;
+        float initialVolume = engine.volume;
+
+        engine.loop = false;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / fadeDuration;
+
+            engine.pitch = Mathf.Lerp(initialPitch, 0.5f, t);
+            engine.volume = Mathf.Lerp(initialVolume, 0f, t);
+
+            yield return null;
+        }
+
+        engine.Stop();
+        engine.pitch = 1f;
+        engine.volume = 1f;
+    }
+
 }

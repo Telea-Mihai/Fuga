@@ -1,0 +1,163 @@
+# Blender MTL File: 'packDeRuas.blend'
+# Material Count: 13
+
+newmtl Materiais.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.004
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.006
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Concrete-3126.jpg
+
+newmtl Materiais.007
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.009
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Asphalt019_1K-JPG\\Asphalt019_1K_NormalDX.jpg
+map_Kd Asphalt019_1K-JPG\\Asphalt019_1K_Color.jpg
+map_Ns Asphalt019_1K-JPG\\Asphalt019_1K_Roughness.jpg
+
+newmtl Materiais.010
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Concrete-3126.jpg
+
+newmtl Materiais.011
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Road007_1K-JPG\\Road007_1K_NormalDX.jpg
+map_Kd Road007_1K-JPG\\Road007_1K_Color.jpg
+map_Ns Road007_1K-JPG\\Road007_1K_Roughness.jpg
+
+newmtl Materiais.013
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Road003_1K-JPG\\Road003_1K_NormalDX.jpg
+map_Kd Road003_1K-JPG\\Road003_1K_Color.jpg
+map_Ns Road003_1K-JPG\\Road003_1K_Roughness.jpg
+
+newmtl Materiais.014
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Concrete-3126.jpg
+
+newmtl Material
+Ns 359.999993
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Concrete-3126.jpg

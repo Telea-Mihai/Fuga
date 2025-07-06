@@ -12,14 +12,18 @@ public class FpsController : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Sensitivity")]
+    public bool controlsCamera = true;
     private float xRotation;
     public float sensitivity = 50f;
     private float sensMultiplier = 1f;
 
     [Header("Movement")]
     public float moveSpeed = 500;
-    public float maxSpeed = 20;
+
+    public float moveMaxSpeed = 2f;
+    private float maxSpeed = 20;
     public float sprintspeed=1000;
+    public float sprintmaxspeed = 5f;
     public bool grounded;
     public LayerMask whatIsGround;
 
@@ -95,6 +99,8 @@ public class FpsController : MonoBehaviour
     private RaycastHit climbHit;
     private bool checkEnviorment=true;
 
+     public float camXOffset;
+
     [System.Serializable] //Trick to show structs in inspectors!
     public struct Detection {
         public float lenght;
@@ -124,9 +130,9 @@ public class FpsController : MonoBehaviour
     private void Update()
     {
         MyInput();
-        Look();
-        //Move camera
-        playerCam.position = Headposition.position;
+        if(controlsCamera)
+            Look();
+
         if(parkourEnabled)
             CheckEnviorment();
 
@@ -258,8 +264,20 @@ public class FpsController : MonoBehaviour
             }
 
         }
+        //Decide on speed
+            float curSpeed = moveSpeed;
+            maxSpeed = moveMaxSpeed;
+
+            if (sprinting)
+            {
+                curSpeed = sprintspeed;
+                maxSpeed = sprintmaxspeed;
+            }
+            if (crouching)
+                curSpeed = crouchspeed;
+        
             //Set max speed
-            float maxSpeed = this.maxSpeed;
+            
 
             //If sliding down a ramp, add force down so player stays grounded and also builds speed
             if (crouching && grounded && readyToJump)
@@ -284,13 +302,7 @@ public class FpsController : MonoBehaviour
                 multiplierV = 0.5f;
             }
 
-            //Decide on speed
-            float curSpeed = moveSpeed;
 
-            if (sprinting)
-                curSpeed = sprintspeed;
-            if (crouching)
-                curSpeed = crouchspeed;
 
             // Movement while sliding
             if (grounded && crouching) multiplierV = 0f;
@@ -329,20 +341,22 @@ public class FpsController : MonoBehaviour
     private float desiredX;
     private void Look()
     {
+        //Move camera
+        playerCam.position = Headposition.position;
+        
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
 
-        //Find current look rotation
-        Vector3 rot = playerCam.transform.localRotation.eulerAngles;
-        desiredX = rot.y + mouseX;
-
-        //Rotate, and also make sure we dont over- or under-rotate.
+        // Rotate up/down (pitch)
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        //Perform the rotations
-        playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
-        orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+        // Rotate left/right (yaw) with camXOffset added only once
+        desiredX += mouseX;
+    
+        // Apply rotations with camXOffset statically added to orientation
+        playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX + camXOffset, 0);
+        orientation.transform.localRotation = Quaternion.Euler(0, desiredX + camXOffset, 0);
     }
 
     private void CounterMovement(float x, float y, Vector2 mag)

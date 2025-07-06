@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f8523d8cba4053f4685e3a5756fbfb0f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214374
+  packageName: Modular Industrial Set
+  packageVersion: 1.0
+  assetPath: Assets/Modular Industrial Set/Scenes/MIS_Example_03/LightingData.asset
+  uploadId: 482923

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
@@ -49,13 +50,11 @@ public class Door : MonoBehaviour, IInteractable
 
             yield return null;
         }
-
-        // Ensure final values are accurate
+        
         if (sliding)
             transform.position = endPos;
         else
             transform.rotation = endRot;
     }
-    
     public String GetInteractionPrompt() => open ? "Press E to Close" : "Press E to Open";
 }

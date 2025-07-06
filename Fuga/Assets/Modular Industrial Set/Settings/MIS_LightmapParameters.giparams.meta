@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 30b5f00223926b24e931823e79160fa3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 111300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214374
+  packageName: Modular Industrial Set
+  packageVersion: 1.0
+  assetPath: Assets/Modular Industrial Set/Settings/MIS_LightmapParameters.giparams
+  uploadId: 482923
