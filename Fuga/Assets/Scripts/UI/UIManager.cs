@@ -29,5 +29,7 @@ public class UIManager : MonoBehaviour
         {
             itemDot.transform.localScale = Vector3.Lerp(itemDot.transform.localScale, defaultScale, 0.5f);
         }
+
+        interactionName.text = interaction.message;
     }
 }

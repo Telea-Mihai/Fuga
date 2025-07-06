@@ -74,15 +74,12 @@ public class VehicleInput : MonoBehaviour, IInteractable
 	{
 		float mouseX = Input.GetAxis("Mouse X") * player.sensitivity * Time.fixedDeltaTime;
 		float mouseY = Input.GetAxis("Mouse Y") * player.sensitivity * Time.fixedDeltaTime;
-
-		// Rotate up/down (pitch)
+		
 		xRotation -= mouseY;
 		xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-		// Rotate left/right (yaw) with camXOffset added only once
+		
 		desiredX += mouseX;
-    
-		// Apply rotations with camXOffset statically added to orientation
+		
 		playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX + transform.rotation.eulerAngles.y, 0);
 	}
 

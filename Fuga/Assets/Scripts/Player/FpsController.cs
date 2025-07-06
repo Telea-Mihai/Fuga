@@ -1,4 +1,4 @@
-using System;
+
 using UnityEngine;
 
 public class FpsController : MonoBehaviour
@@ -77,6 +77,12 @@ public class FpsController : MonoBehaviour
     public Animator gunContAnimation;
     public Animator CharacterModel;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip footstepClip;
+    public float footstepDelay = 0.5f; // how often footsteps play when walking
+    private float footstepTimer = 0f;
+    
     private float[] curveTimes= new float[3];
     private float parkourSpeed=0;
     private Vector3 RecordedMoveToPosition; //the position of the vault end point in world space to move the player to
@@ -99,7 +105,7 @@ public class FpsController : MonoBehaviour
     private RaycastHit climbHit;
     private bool checkEnviorment=true;
 
-     public float camXOffset;
+    [HideInInspector]public float camXOffset;
 
     [System.Serializable] //Trick to show structs in inspectors!
     public struct Detection {
@@ -165,6 +171,8 @@ public class FpsController : MonoBehaviour
             IsParkour = true;
             chosenParkourMoveTime = ClimbTime;
         }
+      
+        HandleFootsteps();  
 
     }
 
@@ -210,7 +218,7 @@ public class FpsController : MonoBehaviour
     
     private void StartCrouch()
     {
-        transform.localScale = crouchScale;
+        transform.GetComponent<CapsuleCollider>().height = crouchScale.y;
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         if (rb.linearVelocity.magnitude > 0.5f)
         {
@@ -230,6 +238,8 @@ public class FpsController : MonoBehaviour
 
     private void Movement()
     {
+        if (DialogManager.Instance.inDialog)
+            return;
         //Extra gravity
         rb.AddForce(Vector3.down * Time.deltaTime * 10);
 
@@ -268,6 +278,7 @@ public class FpsController : MonoBehaviour
             float curSpeed = moveSpeed;
             maxSpeed = moveMaxSpeed;
 
+
             if (sprinting)
             {
                 curSpeed = sprintspeed;
@@ -275,9 +286,6 @@ public class FpsController : MonoBehaviour
             }
             if (crouching)
                 curSpeed = crouchspeed;
-        
-            //Set max speed
-            
 
             //If sliding down a ramp, add force down so player stays grounded and also builds speed
             if (crouching && grounded && readyToJump)
@@ -285,7 +293,7 @@ public class FpsController : MonoBehaviour
                 rb.AddForce(Vector3.down * Time.deltaTime * 3000);
                 return;
             }
-
+            
             //If speed is larger than maxspeed, cancel out the input so you don't go over max speed
             if (x > 0 && xMag > maxSpeed) x = 0;
             if (x < 0 && xMag < -maxSpeed) x = 0;
@@ -371,11 +379,11 @@ public class FpsController : MonoBehaviour
         }
 
         //Counter movement
-        if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
+        if (Mathf.Abs(mag.x) > threshold && Mathf.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
         {
             rb.AddForce(moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
         }
-        if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
+        if (Mathf.Abs(mag.y) > threshold && Mathf.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
         {
             rb.AddForce(moveSpeed * orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
         }
@@ -458,6 +466,23 @@ public class FpsController : MonoBehaviour
     {
         grounded = false;
     }
+    
+    private void HandleFootsteps()
+    {
+        if (!grounded || IsParkour || rb.linearVelocity.magnitude < 0.2f)
+            return;
 
+        footstepTimer -= Time.deltaTime;
+
+        if (footstepTimer <= 0f)
+        {
+            audioSource.pitch = 1f + Random.Range(-0.05f, 0.05f); 
+            audioSource.PlayOneShot(footstepClip);
+            footstepTimer = footstepDelay;
+            
+            if (sprinting) footstepTimer *= 0.6f;
+            else if (crouching) footstepTimer *= 1.4f;
+        }
+    }
 
 }

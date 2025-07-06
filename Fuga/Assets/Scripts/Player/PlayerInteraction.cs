@@ -21,14 +21,23 @@ public class PlayerInteraction : MonoBehaviour
     [HideInInspector] public bool hovering;
     [HideInInspector] public string message;
     public bool canInteract;
+    
+    private DialogManager dialogManager;
 
     private void Start()
     {
         itempickup = GetComponent<Itempickup>();
+        dialogManager = DialogManager.Instance;
     }
 
     void Update()
     {
+        if (dialogManager.inDialog)
+        {
+            if(Input.GetKeyDown(interactKey))
+                dialogManager.ShowNextLine();
+            return;
+        }
         if (Input.GetKeyDown(interactKey) && current != null && canInteract)
         {
             current.Interact(this);
@@ -43,7 +52,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (Physics.Raycast(pov.position, pov.forward, out RaycastHit hit, range, layerMask, QueryTriggerInteraction.Collide))
         {
-            current = hit.transform.GetComponent<IInteractable>();
+            current = hit.collider.transform.GetComponent<IInteractable>();
+            Debug.Log(hit.transform.name);
             if(current==null) return;
             message = current.GetInteractionPrompt();
             hovering = true;
@@ -52,6 +62,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             hovering = false;
             current = null;
+            message = "";
         }
     }
+    
+    
 }
