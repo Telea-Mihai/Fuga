@@ -39,7 +39,7 @@ Material:
     m_Floats:
     - _ColorResolution: 8
     - _DitherEffectSpread: 0.03
-    - _Scale: 0.42
+    - _Scale: 0.66
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
